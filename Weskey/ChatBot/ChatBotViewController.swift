@@ -1,29 +1,33 @@
-//
-//  ChatBotViewController.swift
-//  Weskey
-//
-//  Created by 김승희 on 5/26/24.
-//
-
 import UIKit
 
 class ChatBotViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func startCustomWhiskeyRecommendation(_ sender: UIButton) {
+        performSegue(withIdentifier: "ShowChatBot", sender: "맞춤 위스키 추천 시작!")
     }
-    */
-
+    
+    @IBAction func recommendValueWhiskey(_ sender: UIButton) {
+        performSegue(withIdentifier: "ShowChatBot", sender: "가성비 좋은 위스키 추천해줘")
+    }
+    
+    @IBAction func recommendSpecialOccasionWhiskey(_ sender: UIButton) {
+        performSegue(withIdentifier: "ShowChatBot", sender: "특별한 기념일에 어울리는 위스키 추천해줘")
+    }
+    
+    @IBAction func recommendBeginnerWhiskey(_ sender: UIButton) {
+        performSegue(withIdentifier: "ShowChatBot", sender: "초보자도 먹기 쉬운 위스키 추천해줘")
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowChatBot",
+           let destinationVC = segue.destination as? ChattingViewController,
+           let initialMessage = sender as? String {
+            destinationVC.initialMessage = initialMessage
+            destinationVC.clearMessages()
+        }
+    }
 }

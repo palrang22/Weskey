@@ -1,29 +1,43 @@
-//
-//  DetailPostViewController.swift
-//  Weskey
-//
-//  Created by 김승희 on 5/26/24.
-//
 
 import UIKit
 
 class DetailPostViewController: UIViewController {
+    
+    @IBOutlet weak var PostTitle: UILabel!
+    @IBOutlet weak var PostContent: UILabel!
+    @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var dislikeButton: UIButton!
+    
+    var post: Post?
+    var likeCount: Int = 0
+    var dislikeCount: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        updateButtonTitles()
+        if let post = post {
+            PostTitle.text = post.title
+            PostContent.text = post.content
+        }
+        PostContent.setLineSpacing(lineSpacing: 5)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func likeButtonTapped(_ sender: UIButton) {
+        likeCount += 1
+        updateButtonTitles()
     }
-    */
+    
+    @IBAction func dislikeButtonTapped(_ sender: UIButton) {
+        dislikeCount += 1
+        updateButtonTitles()
+    }
+    
+    func updateButtonTitles() {
+        likeButton.setTitle("추천   \(likeCount)", for: .normal)
+        dislikeButton.setTitle("비추천   \(dislikeCount)", for: .normal)
+    }
 
 }
+    
+    
+    
