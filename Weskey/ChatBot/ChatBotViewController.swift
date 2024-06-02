@@ -4,6 +4,9 @@ class ChatBotViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let backBarButtonItem = UIBarButtonItem(title: "뒤로가기", style: .plain, target: self, action: nil)
+        backBarButtonItem.tintColor = .systemOrange
+        self.navigationItem.backBarButtonItem = backBarButtonItem
     }
     
     @IBAction func startCustomWhiskeyRecommendation(_ sender: UIButton) {

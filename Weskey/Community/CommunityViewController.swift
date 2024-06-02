@@ -25,6 +25,9 @@ class CommunityViewController: UIViewController, UICollectionViewDataSource, UIC
         filterPosts(for: CommunitySegment.selectedSegmentIndex)
         
         configButton()
+        let backBarButtonItem = UIBarButtonItem(title: "뒤로가기", style: .plain, target: self, action: nil)
+        backBarButtonItem.tintColor = .systemOrange
+        self.navigationItem.backBarButtonItem = backBarButtonItem
     }
     
     @IBAction func PostingButtonTapped(_ sender: Any) {

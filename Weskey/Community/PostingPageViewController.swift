@@ -98,7 +98,7 @@ class PostingPageViewController: UIViewController, UITextFieldDelegate, UITextVi
 }
 
 class reviewViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
-    
+
     @IBOutlet weak var priceStackView: UIStackView!
     @IBOutlet weak var smellStackView: UIStackView!
     @IBOutlet weak var tasteStackView: UIStackView!
@@ -114,7 +114,6 @@ class reviewViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         setupRatingButtons(for: priceStackView)
         setupRatingButtons(for: smellStackView)
         setupRatingButtons(for: tasteStackView)
-        registerForKeyboardNotifications()
         wkName.delegate = self
         reviewTitle.delegate = self
         reviewContent.delegate = self
@@ -123,30 +122,6 @@ class reviewViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         setPlaceholderForTextField(wkName, placeholder: "위스키 제품명을 입력하세요.")
         setPlaceholderForTextField(reviewTitle, placeholder: "제목을 입력하세요...")
         setPlaceholderForTextView(reviewContent, placeholder: "내용을 입력하세요...")
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-        
-    func registerForKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-        
-    @objc func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-        
-        UIView.animate(withDuration: 0.3) {
-            self.view.frame.origin.y = -keyboardFrame.height
-        }
-    }
-        
-    @objc func keyboardWillHide(_ notification: Notification) {
-        UIView.animate(withDuration: 0.3) {
-            self.view.frame.origin.y = 0
-        }
     }
     
     func setupRatingButtons(for stackView: UIStackView) {
@@ -181,12 +156,16 @@ class reviewViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         reviewTitle.layer.borderColor = UIColor.lightGray.cgColor
         reviewTitle.layer.borderWidth = 1.0
         reviewTitle.layer.cornerRadius = 5.0
+        
+        wkName.autocorrectionType = .no
+        wkName.spellCheckingType = .no
     }
         
     private func configTextView() {
         reviewContent.layer.borderColor = UIColor.lightGray.cgColor
         reviewContent.layer.borderWidth = 1.0
         reviewContent.layer.cornerRadius = 5.0
+
     }
     
     func setPlaceholderForTextField(_ textField: UITextField, placeholder: String) {

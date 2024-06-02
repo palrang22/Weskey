@@ -363,6 +363,7 @@
 				DEVELOPMENT_TEAM = 5RULM9TM7R;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Weskey/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DaisKey;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -394,6 +395,7 @@
 				DEVELOPMENT_TEAM = 5RULM9TM7R;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Weskey/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DaisKey;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

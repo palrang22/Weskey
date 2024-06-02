@@ -1,4 +1,3 @@
-
 import UIKit
 
 class ChatMessageCell: UICollectionViewCell {
@@ -9,51 +8,43 @@ class ChatMessageCell: UICollectionViewCell {
     
     @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var trailingConstraint: NSLayoutConstraint!
-
+    
     func configure(with message: Message) {
         messageLabel.text = message.text
         messageLabel.numberOfLines = 0
         messageLabel.sizeToFit()
         
-        messageLabel.text = message.text
+        let maxMessageWidth = UIScreen.main.bounds.width - 20
+        let messageTextWidth = messageLabel.sizeThatFits(CGSize(width: maxMessageWidth, height: CGFloat.greatestFiniteMagnitude)).width
+        let constrainedWidth = min(maxMessageWidth, messageTextWidth)
         
         if message.isUser {
             chatBotImageView.isHidden = true
             chatBotName.isHidden = true
+            leadingConstraint.constant = max(30, UIScreen.main.bounds.width - constrainedWidth)
+            trailingConstraint.constant = 10
         } else {
             chatBotImageView.isHidden = false
             chatBotName.isHidden = false
             chatBotImageView.image = UIImage(named: "chatbotCharacterChatting")
             chatBotName.text = "We's Key"
+            leadingConstraint.constant = 10
+            trailingConstraint.constant = max(50, UIScreen.main.bounds.width - constrainedWidth - 10)
         }
         
         let userColor = UIColor(hex: "#632810")
-        let botColor = UIColor(hex: "#632810")
-        
-        if message.isUser {
-            messageBackgroundView.backgroundColor = UIColor.white
-            messageBackgroundView.layer.borderColor = userColor.cgColor
-            messageBackgroundView.layer.borderWidth = 1.0
-            messageLabel.textColor = UIColor.black
-            messageLabel.textAlignment = .right
-            messageLabel.setLineSpacing(lineSpacing: 5)
-            leadingConstraint.constant = 50
-            trailingConstraint.constant = 0
-        } else {
-            messageBackgroundView.backgroundColor = botColor
-            messageLabel.textColor = UIColor.white
-            messageLabel.textAlignment = .left
-            messageLabel.setLineSpacing(lineSpacing: 5)
-            leadingConstraint.constant = 10
-            trailingConstraint.constant = 50
-        }
+        messageBackgroundView.backgroundColor = message.isUser ? UIColor.white : userColor
+        messageLabel.textColor = message.isUser ? UIColor.black : UIColor.white
+        messageLabel.textAlignment = message.isUser ? .right : .left
         
         messageBackgroundView.layer.cornerRadius = 10
-        messageBackgroundView.clipsToBounds = true
-        messageBackgroundView.layer.maskedCorners = message.isUser ? [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner] : [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        messageBackgroundView.layer.borderWidth = 1.0
+        messageBackgroundView.layer.borderColor = userColor.cgColor
+        
+        layoutIfNeeded()
     }
 }
-
+    
 extension UIColor {
     convenience init(hex: String) {
         var hexString: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
@@ -70,4 +61,3 @@ extension UIColor {
         )
     }
 }
-

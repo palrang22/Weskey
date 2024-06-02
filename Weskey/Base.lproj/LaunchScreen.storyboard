@@ -16,13 +16,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="9i8-gO-Y6O">
-                                <rect key="frame" x="46" y="361.66666666666669" width="301.33333333333331" height="129"/>
+                                <rect key="frame" x="46" y="359.66666666666669" width="301.33333333333331" height="133"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mainLogo" translatesAutoresizingMaskIntoConstraints="NO" id="fB9-VX-iWe">
-                                        <rect key="frame" x="0.0" y="0.0" width="301.33333333333331" height="61"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mainLogoChanged" translatesAutoresizingMaskIntoConstraints="NO" id="fB9-VX-iWe">
+                                        <rect key="frame" x="0.0" y="0.0" width="301.33333333333331" height="65"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="위스키 추천은 AI에게, 여러 경험과 꿀팁들은 커뮤니티와 함께!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="66p-nX-T0r">
-                                        <rect key="frame" x="0.0" y="81" width="301.33333333333331" height="48"/>
+                                        <rect key="frame" x="0.0" y="85" width="301.33333333333331" height="48"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="highlightedColor" red="0.36078432199999999" green="0.1686274707" blue="0.090196087960000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -45,6 +45,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="mainLogo" width="189" height="61"/>
+        <image name="mainLogoChanged" width="238" height="65"/>
     </resources>
 </document>

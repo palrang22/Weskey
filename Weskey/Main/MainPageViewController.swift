@@ -3,6 +3,7 @@ import UIKit
 
 class MainPageViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    @IBOutlet weak var mainBanner: UIImageView!
     @IBOutlet weak var RecentPost: UICollectionView!
     
     var recentPosts: [Post] = []
@@ -17,11 +18,29 @@ class MainPageViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         recentPosts = sampleData.prefix(5).map { $0 }
         RecentPost.reloadData()
+        
+        configBannerPopup()
+        
+        let backBarButtonItem = UIBarButtonItem(title: "뒤로가기", style: .plain, target: self, action: nil)
+            backBarButtonItem.tintColor = .systemOrange
+        self.navigationItem.backBarButtonItem = backBarButtonItem
     }
     
     @IBAction func ViewAllPostTapped(_ sender: Any) {
         if let tabBarController = self.tabBarController {
             tabBarController.selectedIndex = 2
+        }
+    }
+    
+    func configBannerPopup() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openWebsite))
+        mainBanner.addGestureRecognizer(tapGesture)
+        mainBanner.isUserInteractionEnabled = true
+    }
+    
+    @objc func openWebsite() {
+        if let url = URL(string: "https://www.shinsegae-lnb.com/whisky/88"), UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     

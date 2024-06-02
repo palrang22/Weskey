@@ -1,4 +1,3 @@
-
 import UIKit
 
 class ChattingViewController: UIViewController, UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -20,34 +19,9 @@ class ChattingViewController: UIViewController, UITextViewDelegate, UICollection
         collectionView.alwaysBounceVertical = true
         
         configTextView()
-        
-        if let initialMessage = initialMessage {
-            addMessage(initialMessage, fromUser: true)
-            
-            if initialMessage == "맞춤 위스키 추천 시작!" {
-                let response = """
-                       안녕하세요! 위스키를 추천해드리는 위스키(we's key)입니다. 취향에 맞는 완벽한 위스키를 찾기 위해 몇 가지 질문을 드릴게요. 천천히 답해주시면 됩니다!
-                       1. 어떤 맛을 좋아하시나요? (예: 달콤한 맛, 매콤한 맛, 과일 맛, 스모키한 맛 등)
-                       2. 어떤 향을 선호하시나요? (예: 바닐라 향, 과일 향, 나무 향, 시트러스 향 등)
-                       예산은 어느 정도 생각하고 계신가요? (예: 3만 원 이하, 3만 원에서 5만 원 사이, 5만 원 이상)
-                       각 질문에 답해주시면 추천 위스키를 찾아드릴게요! 모르시는 부분은 건너뛰셔도 괜찮아요.
-                       """
-                addMessage(response, fromUser: false)
-                chatMessages.append(OpenAIChatBody.ChatMessage(role: "system", content: response))
-            } else {
-                let userMessage = OpenAIChatBody.ChatMessage(role: "user", content: initialMessage)
-                chatMessages.append(userMessage)
-                chatService.sendOpenAIRequest(messages: chatMessages) { response in
-                    DispatchQueue.main.async {
-                        if let response = response {
-                            self.addMessage(response, fromUser: false)
-                            self.chatMessages.append(OpenAIChatBody.ChatMessage(role: "assistant", content: response))
-                        } else {
-                            self.addMessage("OpenAI 응답을 받지 못했습니다.", fromUser: false)
-                        }
-                    }
-                }
-            }
+        setInitialMessage()
+        if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         }
     }
        
@@ -59,25 +33,71 @@ class ChattingViewController: UIViewController, UITextViewDelegate, UICollection
         }
     }
        
-    
     @IBAction func sendMessage(_ sender: UIButton) {
         guard let text = inputTextView.text, !text.isEmpty else { return }
-                addMessage(text, fromUser: true)
-                inputTextView.text = ""
-                
-                let userMessage = OpenAIChatBody.ChatMessage(role: "user", content: text)
-                chatMessages.append(userMessage)
-                
+        addMessage(text, fromUser: true)
+        inputTextView.text = ""
+        
+        let userMessage = OpenAIChatBody.ChatMessage(role: "user", content: text)
+        chatMessages.append(userMessage)
+        
+        addLoadingMessage()
         chatService.sendOpenAIRequest(messages: chatMessages) { response in
             DispatchQueue.main.async {
-                if let response = response {
-                    self.addMessage(response, fromUser: false)
-                    self.chatMessages.append(OpenAIChatBody.ChatMessage(role: "assistant", content: response))
+                self.updateLoadingMessage(with: response)
+            }
+        }
+    }
+    
+    func setInitialMessage() {
+        if let initialMessage = initialMessage {
+            addMessage(initialMessage, fromUser: true)
+            
+            if initialMessage == "맞춤 위스키 추천 시작!" {
+                let response = """
+                       안녕하세요! 위스키를 추천해드리는 위스키(we's key)입니다. 취향에 맞는 완벽한 위스키를 찾기 위해 몇 가지 질문을 드릴게요. 천천히 답해주시면 됩니다!\n
+                       1. 어떤 맛을 좋아하시나요? (예: 달콤한 맛, 매콤한 맛, 과일 맛, 스모키한 맛 등)\n
+                       2. 어떤 향을 선호하시나요? (예: 바닐라 향, 과일 향, 나무 향, 시트러스 향 등)\n
+                       3. 예산은 어느 정도 생각하고 계신가요? (예: 3만 원 이하, 3만 원에서 5만 원 사이, 5만 원 이상)\n
+                       각 질문에 답해주시면 추천 위스키를 찾아드릴게요! 모르시는 부분은 건너뛰셔도 괜찮아요.
+                       """
+                addMessage(response, fromUser: false)
+                chatMessages.append(OpenAIChatBody.ChatMessage(role: "system", content: response))
+            } else {
+                let userMessage = OpenAIChatBody.ChatMessage(role: "user", content: initialMessage)
+                chatMessages.append(userMessage)
+                addLoadingMessage()
+                chatService.sendOpenAIRequest(messages: chatMessages) { response in
+                    DispatchQueue.main.async {
+                        self.updateLoadingMessage(with: response)
+                    }
                 }
             }
         }
     }
     
+    func addLoadingMessage() {
+        let loadingMessage = Message(text: "GPT-4o 분석중...", isUser: false, isLoading: true)
+        messages.append(loadingMessage)
+        collectionView.reloadData()
+        scrollToBottom()
+    }
+        
+    func updateLoadingMessage(with response: String?) {
+        if let index = messages.firstIndex(where: { $0.isLoading }) {
+            if let response = response {
+                messages[index].text = response
+                messages[index].isLoading = false
+                chatMessages.append(OpenAIChatBody.ChatMessage(role: "assistant", content: response))
+            } else {
+                messages[index].text = "OpenAI 응답을 받지 못했습니다."
+                messages[index].isLoading = false
+            }
+            collectionView.reloadData()
+            scrollToBottom()
+        }
+    }
+
     func configTextView() {
         inputTextView.delegate = self
         inputTextView.layer.borderColor = UIColor.lightGray.cgColor
@@ -85,6 +105,8 @@ class ChattingViewController: UIViewController, UITextViewDelegate, UICollection
         inputTextView.layer.cornerRadius = 5.0
         inputTextView.text = placeholderText
         inputTextView.textColor = UIColor.darkGray
+        inputTextView.autocorrectionType = .no
+        inputTextView.spellCheckingType = .no
     }
         
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -108,8 +130,7 @@ class ChattingViewController: UIViewController, UITextViewDelegate, UICollection
     }
         
     func addMessage(_ text: String, fromUser isUser: Bool) {
-        let formattedText = formatTextWithNewlines(text)
-        let message = Message(text: formattedText, isUser: isUser)
+        let message = Message(text: text, isUser: isUser)
         messages.append(message)
         
         collectionView.reloadData()
@@ -117,10 +138,6 @@ class ChattingViewController: UIViewController, UITextViewDelegate, UICollection
         DispatchQueue.main.async {
             self.scrollToBottom()
         }
-    }
-
-    func formatTextWithNewlines(_ text: String) -> String {
-        return text.replacingOccurrences(of: ". ", with: ".\n")
     }
         
     func scrollToBottom() {
@@ -139,7 +156,7 @@ class ChattingViewController: UIViewController, UITextViewDelegate, UICollection
         }
     }
         
-        // MARK: - UICollectionViewDataSource
+    // MARK: - UICollectionViewDataSource
         
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
@@ -152,15 +169,13 @@ class ChattingViewController: UIViewController, UITextViewDelegate, UICollection
         return cell
     }
         
-        // MARK: - UICollectionViewDelegateFlowLayout
-        
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let message = messages[indexPath.item]
         let width = collectionView.frame.width
         let estimatedHeight = estimateFrameForText(message.text).height + 20
         return CGSize(width: width, height: estimatedHeight)
     }
-        
+            
     func estimateFrameForText(_ text: String) -> CGRect {
         let size = CGSize(width: collectionView.frame.width - 30, height: .greatestFiniteMagnitude)
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)

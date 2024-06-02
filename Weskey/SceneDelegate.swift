@@ -11,6 +11,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tapGesture.cancelsTouchesInView = false
         window?.addGestureRecognizer(tapGesture)
         
+        if let tabBarController = window?.rootViewController as? UITabBarController {
+            tabBarController.selectedIndex = 1
+        }
+        
         window?.overrideUserInterfaceStyle = .light
         window?.makeKeyAndVisible()
     }

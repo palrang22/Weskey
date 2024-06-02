@@ -2,8 +2,9 @@ import Foundation
 
 
 struct Message {
-    let text: String
-    let isUser: Bool
+    var text: String
+    var isUser: Bool
+    var isLoading: Bool = false
 }
 
 
