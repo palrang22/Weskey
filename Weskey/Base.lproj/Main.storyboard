@@ -162,7 +162,7 @@ We’s key 에요!
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3199.2366412213737" y="712.67605633802816"/>
+            <point key="canvasLocation" x="-4280" y="723"/>
         </scene>
         <!--Main Page View Controller-->
         <scene sceneID="9Lb-a6-UEw">
@@ -364,7 +364,7 @@ We’s key 에요!
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lx4-Od-NWh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4280.1526717557254" y="722.53521126760563"/>
+            <point key="canvasLocation" x="-3199" y="723"/>
         </scene>
         <!--AI 챗봇-->
         <scene sceneID="woz-Rk-0TO">
@@ -782,7 +782,7 @@ We’s key 에요!
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cJo-wA-ceb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2045.0381679389311" y="1478.8732394366198"/>
+            <point key="canvasLocation" x="-2605" y="1479"/>
         </scene>
         <!--글쓰기-->
         <scene sceneID="1VL-gs-GlD">
@@ -1026,7 +1026,6 @@ We’s key 에요!
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
-                                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                             <constraints>
                                                                 <constraint firstItem="dLq-XM-vZU" firstAttribute="top" secondItem="5LI-eS-ggQ" secondAttribute="top" constant="10" id="8Yr-rx-Sr8"/>
                                                                 <constraint firstAttribute="trailing" secondItem="dLq-XM-vZU" secondAttribute="trailing" constant="10" id="ctC-7Y-bcO"/>
@@ -1116,7 +1115,7 @@ We’s key 에요!
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KCH-Ih-HZK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3199.2366412213737" y="1478.8732394366198"/>
+            <point key="canvasLocation" x="-4280" y="1478"/>
         </scene>
         <!--Review View Controller-->
         <scene sceneID="CHf-oj-uca">

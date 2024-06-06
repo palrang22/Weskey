@@ -6,8 +6,3 @@ struct Post {
     let content: String
     let category: String
 }
-
-struct PostCategory {
-    let category: String
-    let posts: [Post]
-}

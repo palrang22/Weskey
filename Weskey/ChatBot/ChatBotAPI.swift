@@ -3,7 +3,7 @@ import Foundation
 class ChatBotAPI {
     
     func sendOpenAIRequest(messages: [OpenAIChatBody.ChatMessage], completion: @escaping (String?) -> Void) {        
-        let apiKey = "mykey"
+        let apiKey = "sk-weskey-Gg9RKU7KlvOuRnmNWRNbT3BlbkFJfS7k2VutOIPybX4755Gr"
         let url = URL(string: "https://api.openai.com/v1/chat/completions")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
